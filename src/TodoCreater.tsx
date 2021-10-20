@@ -8,27 +8,22 @@ class IdGenerator {
     return IdGenerator.id++;
   }
 }
-
 export interface ITodo {
   id? : number
   content : string
   status : string
-
 }
-
 export interface ITodoState {
   todos : ITodo[]
   selectedId? : number
 }
-
 export const TodoStateData = atom<ITodoState>({
   key : 'TodoListItemDate',
   default : {
       todos : []
       ,selectedId : 0  
-  }
+    }
 })
-
 export const TodoCreater = () => {
 
   const [ content , setContent ] = useState<string>('');
@@ -47,5 +42,6 @@ export const TodoCreater = () => {
       <button onClick={() => handlerAddTodo(content)}>추가</button>
     </div>
   )
-
 }
+
+

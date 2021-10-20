@@ -33,7 +33,7 @@ const FilterList = (prop : {filtered : string}) => {
 
   if(prop.filtered != '') {
     filterList = todoState.todos.filter(item => {
-      return item.status === prop.filtered
+      return item.status === prop.filtered;
     })
   } else {
     filterList = todoState.todos;
@@ -57,14 +57,14 @@ const TodoListItem = (prop : {todo : ITodo}) => {
       todos : [...todoState.todos],
       selectedId : id
     }
-    setTodoState(selectedData)
+    setTodoState(selectedData);
     console.log(selectedData);
   }
 
 const deleteTodo = (id? : number) => {
   const deletedData : ITodoState = {
     todos : todoState.todos.filter(item => { 
-      return item.id !== id
+      return item.id !== id;
     }),
   }
   setTodoState(deletedData);
