@@ -13,8 +13,8 @@ export const TodoDetail = () => {
       status : ''
     });
     
-    const todoItem : ITodo | undefined = todoState.todos.find(item => item.id === todoState.selectedId);
-
+    const todoItem : ITodo | undefined = todoState.todos.find(item => 
+                                          item.id === todoState.selectedId);
 
     const handlerUpdateTodo = (todo? : ITodo) => {
       updateTodo(todo)
@@ -45,12 +45,13 @@ export const TodoDetail = () => {
   return (
     <div className="main-item3">
       <span>
-        ID : <input value={todoItem?.id}></input>
+        ID : <span>{todoItem?.id}</span>
         <br/>
         할 일 : <input value={todoItem_temp?.content || todoItem?.content} onChange={e => onChangeContent(e.target.value)}></input>
         <br/>
         상 태 : 
         <select  value={todoItem_temp?.status || todoItem?.status} onChange={e => onChangeStatus(e.target.value)}>
+          <option value="">선택</option>
           <option value="대기">대기</option>
           <option value="진행">진행</option>
           <option value="완료">완료</option>
