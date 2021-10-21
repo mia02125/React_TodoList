@@ -38,6 +38,10 @@ export const TodoDetail = () => {
       setTodoItem_temp({...todoItem_temp, id : todoItem?.id, content : value, status : todoItem?.status || ''});
     }
 
+    const onChangeStatus = (value : string) => {
+      setTodoItem_temp({...todoItem_temp, id : todoItem?.id, content : todoItem?.content || '', status : value});
+    }
+
   return (
     <div className="main-item3">
       <span>
@@ -46,7 +50,7 @@ export const TodoDetail = () => {
         할 일 : <input value={todoItem_temp?.content || todoItem?.content} onChange={e => onChangeContent(e.target.value)}></input>
         <br/>
         상 태 : 
-        <select  value={todoItem_temp?.status || todoItem?.status} onChange={e => setTodoItem_temp({...todoItem_temp, id : todoItem?.id, content : todoItem?.content || '', status : e.target.value})}>
+        <select  value={todoItem_temp?.status || todoItem?.status} onChange={e => onChangeStatus(e.target.value)}>
           <option value="대기">대기</option>
           <option value="진행">진행</option>
           <option value="완료">완료</option>
@@ -56,7 +60,6 @@ export const TodoDetail = () => {
       <button onClick={() => handlerUpdateTodo(todoItem_temp)}>수정</button>
     </div>
   )
-
 }
 
 
