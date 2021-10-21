@@ -17,7 +17,7 @@ export interface ITodoState {
   todos : ITodo[]
   selectedId? : number
 }
-export const TodoStateData = atom<ITodoState>({
+export const todoStateData = atom<ITodoState>({
   key : 'TodoListItemDate',
   default : {
       todos : []
@@ -27,9 +27,9 @@ export const TodoStateData = atom<ITodoState>({
 export const TodoCreater = () => {
 
   const [ content , setContent ] = useState<string>('');
-  const [ todoState, setTodoState ] = useRecoilState(TodoStateData);
+  const [ todoState, setTodoState ] = useRecoilState(todoStateData);
   
-  const handlerAddTodo = (content : string, id? : number) => {
+  const addTodo = (content : string, id? : number) => {
     const todoList : ITodoState = {
       todos : [...todoState.todos, { id : id ?? IdGenerator.new(), content : content, status : '대기' }]
     }
@@ -39,7 +39,7 @@ export const TodoCreater = () => {
   return (
     <div className="main-item1">
       <input value={content} onChange={e => setContent(e.target.value)}></input>
-      <button onClick={() => handlerAddTodo(content)}>추가</button>
+      <button onClick={() => addTodo(content)}>추가</button>
     </div>
   )
 }

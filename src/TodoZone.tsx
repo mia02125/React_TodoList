@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ITodo, TodoStateData, ITodoState } from './TodoCreater'
+import { ITodo, todoStateData, ITodoState } from './TodoCreater'
 import './App.css';
 
 
@@ -27,7 +27,7 @@ export const TodoList = () => {
 
 const FilterList = (prop : {filtered : string}) => {
   
-  const todoState = useRecoilValue(TodoStateData);
+  const todoState = useRecoilValue(todoStateData);
 
   let filterList : ITodo[] = [];
 
@@ -50,7 +50,7 @@ const FilterList = (prop : {filtered : string}) => {
 
 const TodoListItem = (prop : {todo : ITodo}) => {
   
-  const [ todoState, setTodoState ] = useRecoilState(TodoStateData);
+  const [ todoState, setTodoState ] = useRecoilState(todoStateData);
 
   const selectedId = (id? : number) => {
     const selectedData : ITodoState = {
