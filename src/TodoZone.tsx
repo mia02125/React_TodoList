@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ITodo, todoStateData, ITodoState } from './TodoData';
+import { ITodo, todoStateData, ITodoState, deleteTodo } from './TodoData';
 import './App.css';
 
 

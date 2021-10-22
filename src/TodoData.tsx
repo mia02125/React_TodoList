@@ -20,8 +20,8 @@ export interface ITodoState {
 export const todoStateData = atom<ITodoState>({
   key : 'TodoListItemDate',
   default : {
-      todos : []
-      ,selectedId : 0  
+      todos : [], 
+      selectedId : 0  
     }
 });
 

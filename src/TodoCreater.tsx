@@ -11,7 +11,7 @@ export const TodoCreater = () => {
   return (
     <div className="main-item1">
       <input value={content} onChange={e => setContent(e.target.value)}></input>
-      <button onClick={() => addTodo(content)}>추가</button>
+      <button onClick={() => addTodo(content)}>할 일 추가</button>
     </div>
   )
 }
