@@ -1,36 +1,27 @@
-import React, { useState } from 'react';
-
-import { ITodo, ITodoState, todoStateData } from './TodoCreater'
+import React, { Fragment, useState } from 'react';
+import { ITodo, updateTodo, todoStateData } from './TodoData';
 import './App.css';
 import { useRecoilState } from 'recoil';
 
 interface IInput { 
-  todo? : ITodo
+  todo? : ITodo;
 }
 
 
 
 /**
- * Common : select
+ * Common : Input
  * @param props ITodo
  * @returns 
  */
 const Input = (props : IInput) => {
 
-  const [ todoState,  setTodoState ]  = useRecoilState(todoStateData); 
-
-  const onChangeContent = (e : any) => {
-    setTodoState({
-      todos : todoState.todos.map((item : ITodo) => {
-        return item.id === props.todo?.id ? {...item, content : e.target.value, status : item.status} : {...item}
-      })
-    });
-  }
+  const [ value, setValue ]  = useState<string>('');
 
   return (
-    <div>
-      <input value={props.todo?.content} onChange={onChangeContent}></input>
-    </div>
+    <Fragment>
+      <input value={value || props.todo?.content} onChange={e => setValue(e.target.value)}></input>
+    </Fragment>
   )
 }
 /**
@@ -39,26 +30,18 @@ const Input = (props : IInput) => {
  * @returns 
  */
 const Select = (props : IInput) => {
-  
-  const [ todoState,  setTodoState ]  = useRecoilState(todoStateData); 
 
-  const onChangeStatus = (e : any) => {
-    setTodoState({
-      todos : todoState.todos.map((item : ITodo) => {
-        // id값 조건에 따른 데이터 변경 
-        return item.id ===  props.todo?.id ? {...item, content : item.content, status : e.target.value} : {...item}
-      })
-    })
-  }
+  const [ status, setStatus ]  = useState<string>('');
+  
   return (
-    <div>
-    <select  value={props.todo?.status} onChange={e => onChangeStatus(e.target.value)}>
-      <option value="">선택</option>
-      <option value="대기">대기</option>
-      <option value="진행">진행</option>
-      <option value="완료">완료</option>
-    </select>
-    </div>
+    <Fragment>
+      <select  value={status || props.todo?.status} onChange={e => setStatus(e.target.value)}>
+        <option value="">선택</option>
+        <option value="대기">대기</option>
+        <option value="진행">진행</option>
+        <option value="완료">완료</option>
+      </select>
+    </Fragment>
   )
 }
 
@@ -66,22 +49,15 @@ const Select = (props : IInput) => {
 export const TodoDetail = () => {
 
     const [ todoState,  setTodoState ]  = useRecoilState(todoStateData); 
-    const todoItem : ITodo | undefined = todoState.todos.find(item => 
-                                          item.id === todoState.selectedId);
-
+    
+    const todoItem = todoState.todos.find(item => item.id === todoState.selectedId);
+    
     const handlerUpdateTodo = (todo? : ITodo) => {
+      console.log(todo);
       updateTodo(todo);
     }
 
-    const updateTodo = (todo? : ITodo) => {
-      const updateTodoItem : ITodoState = {
-        todos : todoState.todos.map((item : ITodo) => {
-          // id값 조건에 따른 데이터 변경 
-          return item.id === todo?.id ? {...item, content : todo?.content || '', status : todo?.status || ''} : {...item}
-        })
-      }
-      setTodoState(updateTodoItem);
-    }
+    
 
 
   return (

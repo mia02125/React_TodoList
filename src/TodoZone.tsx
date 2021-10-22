@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ITodo, todoStateData, ITodoState } from './TodoCreater'
+import { ITodo, todoStateData, ITodoState } from './TodoData';
 import './App.css';
 
 
@@ -61,14 +61,7 @@ const TodoListItem = (prop : {todo : ITodo}) => {
     console.log(selectedData);
   }
 
-const deleteTodo = (id? : number) => {
-  const deletedData : ITodoState = {
-    todos : todoState.todos.filter(item => { 
-      return item.id !== id;
-    }),
-  }
-  setTodoState(deletedData);
-}
+
 
   return (
     <div className={todoState.selectedId === prop.todo.id ? 'selected' : ''} >
