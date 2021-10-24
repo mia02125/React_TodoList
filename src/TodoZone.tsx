@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ITodo, todoStateData, ITodoState, deleteTodo } from './TodoData';
+import { ITodo, todoStateData, ITodoState, DeleteTodo } from './TodoData';
 import './App.css';
 
 
@@ -58,7 +58,6 @@ const TodoListItem = (prop : {todo : ITodo}) => {
       selectedId : id
     }
     setTodoState(selectedData);
-    console.log(selectedData);
   }
 
 
@@ -66,7 +65,7 @@ const TodoListItem = (prop : {todo : ITodo}) => {
   return (
     <div className={todoState.selectedId === prop.todo.id ? 'selected' : ''} >
       <span onClick={() => selectedId(prop.todo.id)}>{prop.todo.id}, {prop.todo.content}, {prop.todo.status}</span>
-      <button onClick={() => deleteTodo(prop.todo.id)}>삭제</button>
+      <button onClick={() => DeleteTodo(prop.todo.id)}>삭제</button>
     </div>
   )
 }

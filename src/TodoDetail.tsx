@@ -1,20 +1,17 @@
 import React, { Fragment, useState } from 'react';
-import { ITodo, updateTodo, todoStateData } from './TodoData';
+import { ITodo, UpdateTodo, todoStateData } from './TodoData';
 import './App.css';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 interface IInput { 
   todo? : ITodo;
 }
-
-
-
 /**
  * Common : Input
  * @param props ITodo
  * @returns 
  */
-const Input = (props : IInput) => {
+export const Input = (props : IInput) => {
 
   const [ value, setValue ]  = useState<string>('');
 
@@ -29,10 +26,10 @@ const Input = (props : IInput) => {
  * @param props ITodo
  * @returns 
  */
-const Select = (props : IInput) => {
+export const Select = (props : IInput) => {
 
   const [ status, setStatus ]  = useState<string>('');
-  
+
   return (
     <Fragment>
       <select  value={status || props.todo?.status} onChange={e => setStatus(e.target.value)}>
@@ -45,21 +42,11 @@ const Select = (props : IInput) => {
   )
 }
 
-
 export const TodoDetail = () => {
 
-    const [ todoState,  setTodoState ]  = useRecoilState(todoStateData); 
-    
-    const todoItem = todoState.todos.find(item => item.id === todoState.selectedId);
-    
-    const handlerUpdateTodo = (todo? : ITodo) => {
-      console.log(todo);
-      updateTodo(todo);
-    }
-
-    
-
-
+  const todoState = useRecoilValue(todoStateData); 
+  const todoItem = todoState.todos.find(item => item.id === todoState.selectedId);
+  
   return (
     <div className="main-item3">
       <span>
@@ -70,7 +57,7 @@ export const TodoDetail = () => {
         상 태 : <Select todo={todoItem}/>
       </span>
       <br/>
-      <button onClick={() => handlerUpdateTodo(todoItem)}>수정</button>
+      <UpdateTodo todo={todoItem}/>
     </div>
   )
 }

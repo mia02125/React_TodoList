@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import './App.css';
 
@@ -25,30 +25,49 @@ export const todoStateData = atom<ITodoState>({
     }
 });
 
-export const addTodo = (content : string, id? : number) => {
+
+export const AddTodo = (props : { content : string, id? : number}) => {
 
   const [ todoState, setTodoState ] = useRecoilState(todoStateData);
   
-  const todoList : ITodoState = {
-    todos : [...todoState.todos, { id : id ?? IdGenerator.new(), content : content, status : '대기' }]
+  const handlerAddTodo = (value : string) => {
+    const addTodoItem : ITodoState = {
+      todos : [...todoState.todos, { id : props.id ?? IdGenerator.new(), content : value, status : '대기' }]
+    }
+    setTodoState(addTodoItem);
   }
-  setTodoState(todoList);
+
+  return (
+    <Fragment>
+      <button onClick={() => handlerAddTodo(props.content)}>할 일 추가</button>
+    </Fragment>
+    
+  )
 }
 
-export const updateTodo = (todo? : ITodo) => {
+export const UpdateTodo = (props : {todo? : ITodo}) => {
 
   const [ todoState, setTodoState ] = useRecoilState(todoStateData);
 
-  const updateTodoItem : ITodoState = {
-    todos : todoState.todos.map((item : ITodo) => {
-      return item.id === todo?.id ? {...item, content : todo?.content || '', status : todo?.status || ''} : {...item}
-    })
+  const handlerUpdateTodo = (todo? : ITodo) => {
+    console.log("updTodo : ", todo);
+    const updateTodoItem : ITodoState = {
+      todos : todoState.todos.map((item : ITodo) => {
+        return item.id === todo?.id ? {...item, content : todo?.content || '', status : todo?.status || ''} : {...item}
+      })
+    }
+    setTodoState(updateTodoItem);
   }
-  setTodoState(updateTodoItem);
+
+  return (
+    <Fragment>
+      <button onClick={() => handlerUpdateTodo(props.todo)}>수정</button>
+    </Fragment>
+  )
 }
 
 
-export const deleteTodo = (id? : number) => {
+export const DeleteTodo = (id? : number) => {
   
   const [ todoState, setTodoState ] = useRecoilState(todoStateData);
 
