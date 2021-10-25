@@ -18,13 +18,20 @@ export interface ITodoState {
   selectedId? : number
 }
 export const todoStateData = atom<ITodoState>({
-  key : 'TodoListItemDate',
+  key : 'TodoListItemData',
   default : {
       todos : [], 
       selectedId : 0  
     }
 });
 
+export const todoItemData = atom<ITodo>({
+  key : 'todoItem',
+  default : {
+    content : '',
+    status : ''
+  }
+})
 
 export const AddTodo = (props : { content : string, id? : number}) => {
 
@@ -67,14 +74,23 @@ export const UpdateTodo = (props : {todo? : ITodo}) => {
 }
 
 
-export const DeleteTodo = (id? : number) => {
+export const DeleteTodo = (prop : {id? : number}) => {
   
   const [ todoState, setTodoState ] = useRecoilState(todoStateData);
 
-  const deletedData : ITodoState = {
-    todos : todoState.todos.filter(item => { 
-      return item.id !== id;
-    }),
+  const handlerDeleteTodo = (id? : number) => {
+
+    const deletedData : ITodoState = {
+      todos : todoState.todos.filter(item => { 
+        return item.id !== id;
+      }),
+    }
+    setTodoState(deletedData);
   }
-  setTodoState(deletedData);
+  
+  return ( 
+    <Fragment>
+      <button onClick={() => handlerDeleteTodo(prop.id)}>삭제</button>
+    </Fragment>
+  )
 }

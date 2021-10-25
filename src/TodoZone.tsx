@@ -60,12 +60,10 @@ const TodoListItem = (prop : {todo : ITodo}) => {
     setTodoState(selectedData);
   }
 
-
-
   return (
     <div className={todoState.selectedId === prop.todo.id ? 'selected' : ''} >
       <span onClick={() => selectedId(prop.todo.id)}>{prop.todo.id}, {prop.todo.content}, {prop.todo.status}</span>
-      <button onClick={() => DeleteTodo(prop.todo.id)}>삭제</button>
+      <DeleteTodo id={prop.todo.id}/>
     </div>
   )
 }
