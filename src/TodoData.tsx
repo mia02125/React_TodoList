@@ -29,8 +29,8 @@ export const todoItemData = atom<ITodo>({
   key : 'todoItem',
   default : {
     id : 0,
-    content : '',
-    status : ''
+    content : '' ?? undefined,
+    status : '' ?? undefined
   }
 })
 
@@ -53,7 +53,7 @@ export const AddTodo = (props : { content : string, id? : number}) => {
   )
 }
 
-export const UpdateTodo = (props : {todo? : ITodo}) => {
+export const UpdateTodo = (props : {todo? : ITodo, updateId? : number}) => {
 
   const [ todoState, setTodoState ] = useRecoilState(todoStateData);
 
@@ -61,7 +61,7 @@ export const UpdateTodo = (props : {todo? : ITodo}) => {
     console.log('todo : ', todo);
     const updateTodoItem : ITodoState = {
       todos : todoState.todos.map((item : ITodo) => {
-        return item.id === todo?.id ? {...item, content : todo?.content || '', status : todo?.status || ''} : {...item}
+        return item.id === props.updateId ? {...item, content : todo?.content || '', status : todo?.status || ''} : {...item}
       })
     }
     setTodoState(updateTodoItem);
