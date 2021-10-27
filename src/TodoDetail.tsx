@@ -4,20 +4,7 @@ import { useTodo, todoStateData, ITodo } from './TodoData';
 import './App.css';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-
-
-export const TodoDetail = () => {
-
-  const todoState = useRecoilValue(todoStateData); 
-  const todoItem = todoState.todos.find(item => item.id === todoState.selectedId);
-  const { updateTodo } = useTodo();
-
-  const [ inputTodoItem, setInputTodoItem ] = useState<ITodo>({
-    content : '',
-    status : '' 
-  })
-  
-  /**
+/**
  * Common : Input
  * @param props ITodo
  * @returns 
@@ -26,7 +13,7 @@ export const TodoDetail = () => {
 
   return (
     <Fragment>
-      <input value={props.value || inputTodoItem.content} onChange={e => setInputTodoItem({content :e.target.value, status : todoItem?.status || ''})}></input>
+      <input value={props.value}          ></input>
     </Fragment>
   )
 }
@@ -40,7 +27,7 @@ export const TodoDetail = () => {
 
   return (
     <Fragment>
-      <select  value={props.value || inputTodoItem.status} onChange={e => setInputTodoItem({content : todoItem?.content || '', status : e.target.value})}>
+      <select  value={props.value}         >
         <option value="">선택</option>
         <option value="대기">대기</option>
         <option value="진행">진행</option>
@@ -50,14 +37,25 @@ export const TodoDetail = () => {
   )
 }
 
+export const TodoDetail = () => {
+
+  const todoState = useRecoilValue(todoStateData); 
+  const todoItem = todoState.todos.find(item => item.id === todoState.selectedId);
+  const { updateTodo } = useTodo();
+
+  const [ inputTodoItem, setInputTodoItem ] = useState<ITodo>({
+    content : '',
+    status : '' 
+  })
+
   return (
     <div className="main-item3">
       <span>
         ID : <span>{todoItem?.id}</span>
         <br/>
-        할 일 : <Input value={todoItem?.content} />
+        할 일 : <Input value={inputTodoItem.content || todoItem?.content} />
         <br/>
-        상 태 : <Select value={todoItem?.status} />
+        상 태 : <Select value={inputTodoItem.content || todoItem?.status} />
       </span>
       <br/>
       <button onClick={() => updateTodo(inputTodoItem)}>수정</button>
