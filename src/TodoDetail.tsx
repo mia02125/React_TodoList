@@ -10,8 +10,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 export const Input = (props : { value? : string }) => {
 
   const [ todoItem, setTodoItem ] = useRecoilState(todoItemData);
-
-
+  
+  
   return (
     <Fragment>
       <input value={props.value} onChange={e => setTodoItem({content : e.target.value, status : todoItem.status})}></input>
@@ -51,9 +51,9 @@ export const TodoDetail = () => {
       <span>
         ID : <span>{todoItem?.id}</span>
         <br/>
-        할 일 : <Input value={inputTodo.content || todoItem?.content} />
+        할 일 : <Input value={inputTodo.content ?? todoItem?.content} />
         <br/>
-        상 태 : <Select value={inputTodo.status || todoItem?.status} />
+        상 태 : <Select value={inputTodo.status ?? todoItem?.status} />
       </span>
       <br/>
       <UpdateTodo todo={inputTodo} updateId={todoItem?.id}/>

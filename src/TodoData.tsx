@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { atom, useRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import './App.css';
 
 class IdGenerator {
@@ -24,7 +24,9 @@ export const todoStateData = atom<ITodoState>({
       selectedId : 0  
     }
 });
-
+/**
+ * 수정하기 위한 input 상태관리
+ */
 export const todoItemData = atom<ITodo>({
   key : 'todoItem',
   default : {
@@ -61,7 +63,7 @@ export const UpdateTodo = (props : {todo? : ITodo, updateId? : number}) => {
     console.log('todo : ', todo);
     const updateTodoItem : ITodoState = {
       todos : todoState.todos.map((item : ITodo) => {
-        return item.id === props.updateId ? {...item, content : todo?.content || '', status : todo?.status || ''} : {...item}
+        return item.id === props.updateId ? {...item, content : todo?.content ?? '', status : todo?.status ?? ''} : {...item}
       })
     }
     setTodoState(updateTodoItem);
