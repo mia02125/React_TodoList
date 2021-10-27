@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { AddTodo } from './TodoData';
+import { useTodo, todoStateData } from './TodoData';
 import './App.css';
+import { useRecoilState } from 'recoil';
 
 
 
 export const TodoCreater = () => {
-
   const [ content , setContent ] = useState<string>('');
-
+  const { addTodo } = useTodo();
   return (
     <div className="main-item1">
       <input value={content} onChange={e => setContent(e.target.value)}></input>
-      <AddTodo content={content}/>
+      <button onClick={() => addTodo(content)}>할 일 추가</button>
     </div>
   )
 }

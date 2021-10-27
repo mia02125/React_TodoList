@@ -1,35 +1,46 @@
 import React, { Fragment, useState } from 'react';
-import { UpdateTodo, todoStateData, todoItemData } from './TodoData';
+import { useTodo, todoStateData, ITodo } from './TodoData';
+
 import './App.css';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-/**
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+
+
+export const TodoDetail = () => {
+
+  const todoState = useRecoilValue(todoStateData); 
+  const todoItem = todoState.todos.find(item => item.id === todoState.selectedId);
+  const { updateTodo } = useTodo();
+
+  const [ inputTodoItem, setInputTodoItem ] = useState<ITodo>({
+    content : '',
+    status : '' 
+  })
+  
+  /**
  * Common : Input
  * @param props ITodo
  * @returns 
  */
-export const Input = (props : { value? : string }) => {
+ const Input = (props : { value? : string }) => {
 
-  const [ todoItem, setTodoItem ] = useRecoilState(todoItemData);
-  
-  
   return (
     <Fragment>
-      <input value={props.value} onChange={e => setTodoItem({content : e.target.value, status : todoItem.status})}></input>
+      <input value={props.value || inputTodoItem.content} onChange={e => setInputTodoItem({content :e.target.value, status : todoItem?.status || ''})}></input>
     </Fragment>
   )
 }
 /**
  * Common : Select
- * @param props ITodo
+ * @param props value
  * @returns 
+ * 
  */
-export const Select = (props : { value? : string}) => {
-
-  const [ todoItem, setTodoItem ] = useRecoilState(todoItemData);
+ const Select = (props : { value? : string}) => {
 
   return (
     <Fragment>
-      <select  value={props.value} onChange={e => setTodoItem({content : todoItem.content, status : e.target.value})}>
+      <select  value={props.value || inputTodoItem.status} onChange={e => setInputTodoItem({content : todoItem?.content || '', status : e.target.value})}>
         <option value="">선택</option>
         <option value="대기">대기</option>
         <option value="진행">진행</option>
@@ -39,24 +50,17 @@ export const Select = (props : { value? : string}) => {
   )
 }
 
-export const TodoDetail = () => {
-
-  const todoState = useRecoilValue(todoStateData); 
-  const todoItem = todoState.todos.find(item => item.id === todoState.selectedId);
-  // input 입력 데이터 
-  const inputTodo = useRecoilValue(todoItemData);
-  
   return (
     <div className="main-item3">
       <span>
         ID : <span>{todoItem?.id}</span>
         <br/>
-        할 일 : <Input value={inputTodo.content ?? todoItem?.content} />
+        할 일 : <Input value={todoItem?.content} />
         <br/>
-        상 태 : <Select value={inputTodo.status ?? todoItem?.status} />
+        상 태 : <Select value={todoItem?.status} />
       </span>
       <br/>
-      <UpdateTodo todo={inputTodo} updateId={todoItem?.id}/>
+      <button onClick={() => updateTodo(inputTodoItem)}>수정</button>
     </div>
   )
 }

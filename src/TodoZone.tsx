@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ITodo, todoStateData, ITodoState, DeleteTodo } from './TodoData';
+import { ITodo, todoStateData, ITodoState, useTodo } from './TodoData';
 import './App.css';
 
 
@@ -51,6 +51,7 @@ const FilterList = (prop : {filtered : string}) => {
 const TodoListItem = (prop : {todo : ITodo}) => {
   
   const [ todoState, setTodoState ] = useRecoilState(todoStateData);
+  const { deleteTodo } = useTodo();
 
   const selectedId = (id? : number) => {
     const selectedData : ITodoState = {
@@ -63,7 +64,7 @@ const TodoListItem = (prop : {todo : ITodo}) => {
   return (
     <div className={todoState.selectedId === prop.todo.id ? 'selected' : ''} >
       <span onClick={() => selectedId(prop.todo.id)}>{prop.todo.id}, {prop.todo.content}, {prop.todo.status}</span>
-      <DeleteTodo id={prop.todo.id}/>
+      <button onClick={() => deleteTodo(prop.todo.id)}>삭제</button>
     </div>
   )
 }
