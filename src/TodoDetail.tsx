@@ -4,29 +4,15 @@ import { useTodo, todoStateData, ITodo } from './TodoData';
 import './App.css';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-export const TodoDetail = () => {
-
-  const todoState = useRecoilValue(todoStateData); 
-  const todoItem = todoState.todos.find(item => item.id === todoState.selectedId);
-  const { updateTodo } = useTodo();
-  
-  const [ updData, setUpdData ] = useState<ITodo>({
-    content : '',
-    status : ''
-  })
-
   /**
    * Common : Input
    * @param props ITodo
    * @returns 
    */
-  const Input = (props : { value? : string }) => {
-
-    const [ content, setContent ] = useState<string>('');
-
+   const Input = (props : { value? : string, onChange : React.Dispatch<React.SetStateAction<string>>}) => {
     return (
       <Fragment>
-        <input value={content || props.value} onChange={e => setContent(e.target.value)} ></input>
+        <input value={props.value} onChange={e => props.onChange(e.target.value)} ></input>
       </Fragment>
     )
   }
@@ -36,11 +22,10 @@ export const TodoDetail = () => {
    * @returns 
    * 
    */
-  const Select = (props : { value? : string}) => {
-
+  const Select = (props : { value? : string, onChange : React.Dispatch<React.SetStateAction<string>>}) => {
     return (
       <Fragment>
-        <select  value={props.value}         >
+        <select  value={props.value} onChange={e => props.onChange(e.target.value)}>
           <option value="">선택</option>
           <option value="대기">대기</option>
           <option value="진행">진행</option>
@@ -51,18 +36,26 @@ export const TodoDetail = () => {
   }
 
 
+export const TodoDetail = () => {
+
+  const todoState = useRecoilValue(todoStateData); 
+  const todoItem = todoState.todos.find(item => item.id === todoState.selectedId);
+  
+  const [ content, setContent ] = useState<string>('');
+  const [ status, setStatus ] = useState<string>('');
+  const { updateTodo } = useTodo();
 
   return (
     <div className="main-item3">
       <span>
         ID : <span>{todoItem?.id}</span>
         <br/>
-        할 일 : <Input value={todoItem?.content} />
+        할 일 : <Input value={content || todoItem?.content} onChange={setContent}/>
         <br/>
-        상 태 : <Select value={todoItem?.status} />
+        상 태 : <Select value={status || todoItem?.status} onChange={setStatus}/>
       </span>
       <br/>
-      <button onClick={() => updateTodo(inputTodoItem)}>수정</button>
+      <button onClick={() => updateTodo(content, status, todoItem?.id)}>수정</button>
     </div>
   )
 }

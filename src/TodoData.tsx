@@ -36,10 +36,10 @@ export function useTodo() {
     setTodoState(addTodoItem);
   }
   
-  const updateTodo = (todo? : ITodo, updateId? : number) => {
+  const updateTodo = (content : string, status : string, updateId? : number) => {
     const updateTodoItem : ITodoState = {
       todos : todoState.todos.map((item : ITodo) => {
-        return item.id === updateId ? {...item, content : todo?.content ?? '', status : todo?.status ?? ''} : {...item}
+        return item.id === updateId ? {...item, content : content ?? '', status : status ?? ''} : {...item}
       })
     }
     setTodoState(updateTodoItem);
